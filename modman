@@ -1,7 +1,12 @@
 # Nowlive_Moonlet
-code                                    app/code/local/Nowlive/Moonlet/
-# design/frontend/layout/*                app/design/frontend/base/default/layout/
-# design/frontend/template/*              app/design/frontend/base/default/template/moonlet
-design/adminhtml/layout/moonlet.xml     app/design/adminhtml/default/default/layout/moonlet.xml
-design/adminhtml/template/moonlet       app/design/adminhtml/default/default/template/moonlet
-Nowlive_Moonlet.xml                     app/etc/modules/Nowlive_Moonlet.xml
+Nowlive_Moonlet/Nowlive_Moonlet.xml                     app/etc/modules/Nowlive_Moonlet.xml
+Nowlive_Moonlet/code                                    app/code/local/Nowlive/Moonlet/
+# Nowlive_Moonlet/design/frontend/layout/*                app/design/frontend/base/default/layout/
+# Nowlive_Moonlet/design/frontend/template/*              app/design/frontend/base/default/template/moonlet
+Nowlive_Moonlet/design/adminhtml/layout/moonlet.xml     app/design/adminhtml/default/default/layout/moonlet.xml
+Nowlive_Moonlet/design/adminhtml/template/moonlet       app/design/adminhtml/default/default/template/moonlet
+
+Nowlive_Vendor/Nowlive_Vendor.xml                       app/etc/modules/Nowlive_Vendor.xml
+Nowlive_Vendor/Nowlive_Vendor.xml                       app/etc/modules/Nowlive_Vendor.xml
+Nowlive_Vendor/code                                     app/code/local/Nowlive/Vendor
+Nowlive_Vendor/lib/Nowlive                              lib/Nowlive
