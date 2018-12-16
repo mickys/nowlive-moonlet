@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Nowlive_Moonlet>
+      <version>0.1.0</version>
+    </Nowlive_Moonlet>
+  </modules>
+  <global>
+    <helpers>
+      <moonlet>
+        <class>Nowlive_Moonlet_Helper</class>
+      </moonlet>
+    </helpers>
+	<blocks>
+	  <moonlet>
+		<class>Nowlive_Moonlet_Block</class>
+	  </moonlet>
+	</blocks>
+  </global>
+  <admin>
+	<routers>
+	  <moonlet>
+	    <use>admin</use>
+		<args>
+		  <module>Nowlive_Moonlet</module>
+		  <frontName>admin_moonlet</frontName>
+		</args>
+	  </moonlet>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <moonlet module="moonlet">
+		<title>Moonlet</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <moonletbackend module="moonlet">
+			<title>Moonlet Backend Page Title</title>
+			<sort_order>0</sort_order>
+			<action>admin_moonlet/adminhtml_moonletbackend</action>
+		  </moonletbackend>
+		</children>
+	  </moonlet>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<moonlet translate="title" module="moonlet">
+			  <title>Moonlet</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <moonletbackend translate="title">
+			<title>Moonlet Backend Page Title</title>
+		  </moonletbackend>
+			  </children>
+			</moonlet>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<moonlet>
+		  <file>moonlet.xml</file>
+		</moonlet>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

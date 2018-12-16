@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config>
+	  <tabs>
+		<moonlet_tab translate="label" module="moonlet">
+            <label>moonlet label</label>
+            <sort_order>0</sort_order>
+        </moonlet_tab>
+	  </tabs>
+	  <sections>
+		<moonlet_group  translate="label" module="moonlet">            
+					<groups>
+				      <moonlet_gc translate="label"> 
+					  <label>moonlet group label</label>
+					  <frontend_type>text</frontend_type>
+					  <sort_order>0</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				       <fields>
+					   </fields>
+					   </moonlet_gc>
+					</groups>
+		</moonlet_group>
+		<moonlet_sc  translate="label" module="moonlet">                    
+		<label>moonlet label</label>
+		<tab>moonlet_section</tab>
+		<frontend_type>text</frontend_type>
+		<sort_order>0</sort_order>
+		<show_in_default>1</show_in_default>
+		<show_in_website>1</show_in_website>
+		<show_in_store>1</show_in_store>            
+					<groups>
+				      <moonlet_gc translate="label"> 
+				       <fields>
+                          <moonlet_field translate="label">
+                            <label>moonlet field label</label>
+							<frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>comment</comment>
+                          </moonlet_field>
+					   </fields>
+					   </moonlet_gc>
+					</groups>
+		</moonlet_sc>
+	  </sections>
+</config>

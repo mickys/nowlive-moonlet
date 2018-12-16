@@ -1,0 +1,7 @@
+# Nowlive_Moonlet
+code                                    app/code/local/Nowlive/Moonlet/
+design/frontend/layout/*                app/design/frontend/base/default/layout/
+design/frontend/template/*              app/design/frontend/base/default/template/moonlet
+design/adminhtml/layout/moonlet.xml     app/design/adminhtml/default/default/layout/moonlet.xml
+design/adminhtml/template/moonlet       app/design/adminhtml/default/default/template/moonlet
+Nowlive_Moonlet.xml                     app/etc/modules/Nowlive_Moonlet.xml

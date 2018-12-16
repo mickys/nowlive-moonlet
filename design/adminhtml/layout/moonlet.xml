@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <moonlet_adminhtml_moonletbackend_index>
+	<reference name="content">
+	  <block type="moonlet/adminhtml_moonletbackend" name="moonletbackend" template="moonlet/moonletbackend.phtml"/>
+	</reference>
+  </moonlet_adminhtml_moonletbackend_index>
+</layout>
