@@ -45,6 +45,16 @@
                 <class>Nowlive_Vendor_Model_Resource</class>
             </nowlive_vendor_resource>
         </models>
+        <events>
+            <controller_front_init_before>
+                <observers>
+                    <web3_lib_load>
+                        <type>singleton</type>
+                        <class>nowlive_vendor/observer</class>
+                        <method>controllerFrontInitBefore</method>
+                    </web3_lib_load>
+                </observers>
+            </controller_front_init_before>
+        </events>
 	</global>
-
 </config> 

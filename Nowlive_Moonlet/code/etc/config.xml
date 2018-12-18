@@ -46,6 +46,25 @@
             </moonlet_resource>
         </models>
 	</global>
+    <frontend>
+        <routers>
+            <moonlet>
+                <use>standard</use>
+                <args>
+                    <module>Nowlive_Moonlet</module>
+                    <frontName>moonlet</frontName>
+                </args>
+            </moonlet>
+        </routers>
+        <layout>
+            <updates>
+                <moonlet>
+                    <file>moonlet.xml</file>
+                </moonlet>
+            </updates>
+        </layout>
+    </frontend>
+
 	<admin>
         <routers>
             <adminhtml>
@@ -101,5 +120,15 @@
     <default>
         <moonlet>
         </moonlet>
+        <payment>
+            <moonlet>
+                <active>1</active>
+                <model>moonlet/crypto</model>
+                <order_status>pending</order_status>
+                <title>Moonlet Crypto</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </moonlet>
+        </payment>
     </default>
 </config> 

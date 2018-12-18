@@ -6,10 +6,7 @@ class Nowlive_Vendor_Model_Observer
     {
         self::init();
     }
- 
-    /**
-     * Add in auto loader for Elasticsearch components
-     */
+
     static function init()
     {
         // Add our vendor folder to our include path

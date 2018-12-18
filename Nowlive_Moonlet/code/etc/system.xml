@@ -8,7 +8,7 @@
 	</tabs>
 	<sections>
 		<moonlet>
-            <label><![CDATA[Settings]]></label>
+            <label><![CDATA[Extension Settings]]></label>
             <tab>nowlive</tab>
             <frontend_type>text</frontend_type>
             <sort_order>100</sort_order>
@@ -16,16 +16,80 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <extensions translate="label">
+                <general translate="label">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+					<fields>
+                        <node_url translate="label">
+                            <label>Ethereum Node API URL</label>
+                            <comment><![CDATA[infura / custom]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </node_url>
+                        <etherscan_api_url translate="label">
+                            <label>Etherscan API URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </etherscan_api_url>
+                        <etherscan_api_key translate="label">
+                            <label>Etherscan API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </etherscan_api_key>
+                    </fields>
+                </general>
+                <merchant translate="label">
                     <label>Merchant Settings</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>999</sort_order>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+					<fields>
+                        <currency translate="label">
+                            <label>Used Currency</label>
+                            <comment><![CDATA[]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>moonlet/system_config_source_crypto</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </currency>
+                        <address translate="label">
+                            <label>Merchant Address</label>
+                            <comment><![CDATA[The address we're receiving payments to.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </address>
+                    </fields>
+                </merchant>
+                <oneclickpay translate="label">
+                    <label>One Click Pay</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
 					<fields>
 						<enabled translate="label">
-                            <label>Moonlet one click pay is Enabled</label>
+                            <label>Enable Moonlet "One click pay"</label>
                             <comment><![CDATA[]]></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -34,18 +98,58 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enabled>
-                        <merchant_address translate="label">
-                            <label>Ethereum address we're receiving DAI to</label>
-                            <comment><![CDATA[]]></comment>
-                            <frontend_type>text</frontend_type>
+                    </fields>
+                </oneclickpay>
+            </groups>
+        </moonlet>
+        <payment translate="label" module="payment">
+            <groups>
+                <moonlet translate="label">
+                    <label>Moonlet - Pay with crypto</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <order_status translate="label">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_new</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
+                        </sort_order>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </merchant_address>
-					</fields>
-                </extensions>
+                        </title>
+                    </fields>
+                </moonlet>
             </groups>
-        </moonlet>
+        </payment>
 	</sections>
 </config>

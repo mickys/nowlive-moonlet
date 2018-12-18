@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <catalog_product_view>
+        <!--
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/oneclickorder.css</stylesheet></action>
+        </reference>
+        -->
+        <reference name="product.info.addtocart">
+            <block type="moonlet/form" before="-" name="catalog.product.oneclickorder" template="moonlet/form.phtml"/>
+        </reference>
+    </catalog_product_view>
+</layout>

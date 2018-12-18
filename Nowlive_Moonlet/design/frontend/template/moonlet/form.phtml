@@ -1,0 +1,221 @@
+<?php 
+
+$helper = Mage::helper('moonlet');
+$_product = $this->getProduct();
+$buttonTitle = Mage::helper('core')->quoteEscape($this->__('One Click Pay with Moonlet')); 
+
+$etherscanButtonTitle = Mage::helper('core')->quoteEscape($this->__('View TXN on Etherscan')); 
+$downloadButtonTitle = Mage::helper('core')->quoteEscape($this->__('Download Product')); 
+
+?>
+
+<div id="moonlet">
+
+    <span class="please-wait" id="oneclickorder-please-wait" style="display:none;">
+        <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" />
+        <div id="moonlet-step-text"></div>
+    </span>
+
+    <input type="hidden" id="moonlet-action" value="<?php echo $this->getUrl('moonlet/index/saveOrder')?>" />
+    <div id="moonlet-pay-with">
+        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="oneClickOrder.prepareOrder()"><span><span><?php echo $buttonTitle ?></span></span></button>
+    </div>
+
+    <div id="moonlet-download" style="display:none;">
+        <button type="button" title="<?php echo $downloadButtonTitle ?>" class="button btn-cart" onclick="oneClickOrder.download()"><span><span><?php echo $downloadButtonTitle ?></span></span></button>
+    </div>
+    <div id="moonlet-etherscan" style="display:none;">
+        <button type="button" title="<?php echo $etherscanButtonTitle ?>" class="button btn-cart" onclick="oneClickOrder.etherscan()"><span><span><?php echo $etherscanButtonTitle ?></span></span></button>
+    </div>
+
+</div>
+
+<style type="text/css">
+    #moonlet {
+        float:left;
+        display:block;
+        width:100%;
+    }
+
+    #moonlet-pay-with, #moonlet-download, #moonlet-etherscan {
+        float:left;
+        display:block;
+        width:50%;
+    }
+
+    #oneclickorder-please-wait {
+        float:left;
+        display:block;
+        width:100%;
+        margin-bottom: 10px;
+    }
+</style>
+
+<script type="text/javascript">
+
+var moonletStepTexts = {
+    processing: "<?php echo $helper->__('Processing ...') ?>",
+    preparing_order: "<?php echo $helper->__('Preparing Order ...') ?>",
+    requesting_payment: "<?php echo $helper->__('Requesting Payment ...') ?>",
+    payment_save: "<?php echo $helper->__('Saving Payment ...') ?>",
+    payment_sent: "<?php echo $helper->__('Waiting for Payment Confirmation ...') ?>",
+}
+
+var orderData = {
+    id: 0,
+    txn: 0,
+};
+
+var oneClickOrder = {
+
+    _processResponse:function (response) {
+        if (response.error) {
+            Element.hide('oneclickorder-please-wait');
+            Element.show('oneclickorder-buttons-container');
+            alert(response.error);
+            return false;
+        }
+        if (response.success) {
+            if (response.message) {
+                alert(response.message)
+            }
+            if (response.redirect) {
+                window.location.href = response.redirect;
+            }
+        }
+        return true;
+    },
+    _afterSaveOrder:function (transport) {
+        var response = {};
+        try {
+            response = transport.responseText.evalJSON();
+        } catch (e) {
+            response = transport.responseText;
+        }
+        if (this._processResponse(response)) {
+
+        }
+    },
+    prepareOrder:function () {
+
+        this.processing( "preparing_order", "start" ) 
+
+        new Ajax.Request( "<?php echo $this->getUrl('moonlet/index/initNewOrder')?>", {
+            method:'post',
+            parameters: {product_id: <?php echo $_product->getId(); ?>},
+            onComplete: this.requestAuthorisation.bind(this),
+            onFailure: function () {
+                console.log("prepare Order Failure")
+            }
+        });
+    },
+    requestAuthorisation:function ( response ) {
+
+        const data = response.responseJSON;
+        orderData.id = data.order_id;
+        this.processing( "requesting_payment", "start" ) 
+
+        if (window.moonlet) {
+            try {
+                window.moonlet.send(data.wallet_address, data.price).then((result) => {
+                    orderData.txn = result.data.transactionId;
+                    this.addPayment();
+                }, (error) => {
+                    console.log( "User did not confirm or error ocurred.\n" + JSON.stringify(error, null, 2) );
+                    alert("User did not confirm or error ocurred.\n" + JSON.stringify(error, null, 2));
+                    this.processing( "payment_sent", "stop", "User did not confirm or error ocurred." );
+                });
+            } catch (e) {
+                console.log("err:", e );
+            }
+        } else {
+            alert("Moonlet extension not present ?");
+        }
+
+    },
+    etherscan:function() {
+        var win = window.open("https://ropsten.etherscan.io/tx/"+orderData.txn, '_blank');
+        win.focus();
+    },
+    download:function() {
+        var win = window.open( orderData.download_url, '_blank');
+        win.focus();
+    },
+    addPayment:function() {
+        this.processing( "payment_save", "start" ) 
+
+        new Ajax.Request( "<?php echo $this->getUrl('moonlet/index/savePayment')?>", {
+            method:'post',
+            parameters: orderData,
+            onComplete: this.checkStatus.bind(this),
+            onFailure: function () {
+                console.log("prepare Order Failure")
+            }
+        });
+    },
+    checkStatus:function() {
+        checkPayment(0);
+    },
+    processing:function ( state, mode, message ) {
+
+        if(mode === "start") {
+            Element.show('oneclickorder-please-wait');
+            Element.hide('moonlet-pay-with');
+            Element.hide('add-to-cart');
+            Element.hide('add-to-cart');
+
+            if(typeof message !== "undefined") {
+                $('moonlet-step-text').innerHTML = message;
+            } else {
+                if( moonletStepTexts.hasOwnProperty( state ) ) {
+                    $('moonlet-step-text').innerHTML = moonletStepTexts[state];
+                } else {
+                    $('moonlet-step-text').innerHTML = moonletStepTexts[processing];
+                }
+            }
+            
+        } else {
+            Element.hide('oneclickorder-please-wait');
+            Element.show('moonlet-pay-with');
+        }
+    }
+
+};
+
+var maxCheckTimes = 30;
+function checkPayment( tryCnt ) {
+
+    Element.show('moonlet-etherscan');
+
+    console.log("orderData:", orderData);
+    orderData.tryCnt = tryCnt;
+    oneClickOrder.processing( "payment_sent", "start", moonletStepTexts["payment_sent"] + " " + (tryCnt * 5) );
+
+    new Ajax.Request( "<?php echo $this->getUrl('moonlet/index/checkPayment')?>", {
+        method:'post',
+        parameters: orderData,
+        onComplete: function ( data ) {
+
+            if(data.responseJSON.pending) {
+                console.log("retry checkPayment", data )
+                setTimeout( function() {
+                    checkPayment( ++tryCnt );
+                }, 2500 );
+            } else if (data.responseJSON.success) {
+                console.log("success!", data )
+                oneClickOrder.processing( "payment_sent", "start", "Payment complete. Show Download button!" );
+
+                Element.hide('oneclickorder-please-wait');
+                Element.show('moonlet-download');
+
+                orderData.download_url = data.responseJSON.url;
+            }
+        },
+        onFailure: function () {
+            console.log("checkPayment Failure")
+        }
+    });
+
+}
+
+</script>
